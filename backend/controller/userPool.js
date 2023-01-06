@@ -1,8 +1,9 @@
 const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
+require("dotenv").config({ path: "../.env" });
 
 const poolData = {
-  UserPoolId: "us-east-1_enVD7LHdR",
-  ClientId: "bpolauiqv93fgrakcgmuujvq7",
+  UserPoolId: process.env.USER_POOL_ID,
+  ClientId: process.env.CLIENT_ID,
 };
 
 const signup = async (req, res) => {
@@ -37,4 +38,43 @@ const signup = async (req, res) => {
   }
 };
 
-module.exports = { signup };
+const login = async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+    let user = new AmazonCognitoIdentity.CognitoUser({
+      Username: username,
+      Pool: userPool,
+    });
+
+    let authData = new AmazonCognitoIdentity.AuthenticationDetails({
+      Username: username,
+      Password: password,
+    });
+
+    user.authenticateUser(authData, {
+      onSuccess: (data) => {
+        console.log(`login successful ${data}`);
+        res.status(200).json(data);
+      },
+      onFailure: (err) => {
+        console.log(`login unsuccessful ${err}`);
+        res.status(400).json(err);
+      },
+      newPasswordRequired: (data) => {
+        console.log(`new password required ${data}`);
+        res.status(400).json(data);
+      },
+    });
+
+    console.log(authData);
+  } catch (error) {
+    console.log("user dont exist");
+    console.log(error);
+    res.status(400).json({ message: error });
+  }
+};
+
+module.exports = { signup, login };
