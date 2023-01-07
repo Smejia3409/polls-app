@@ -1,21 +1,35 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import axios from "axios";
 
 const Login = () => {
   interface IloginCred {
-    email: string;
+    username: string;
     password: string;
   }
 
   const [loginCred, setLoginCred] = useState<IloginCred>({
-    email: "",
+    username: "",
     password: "",
   });
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log(loginCred);
+    try {
+      await axios.post("http://localhost:5000/user/login", loginCred);
+
+      console.log("login successful");
+
+      setLoginCred({
+        username: "",
+        password: "",
+      });
+
+      console.log("Login successful");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -23,13 +37,13 @@ const Login = () => {
       <h3>Login</h3>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>Username or Email</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Email"
-            value={loginCred.email}
+            placeholder="Enter Username or Email"
+            value={loginCred.username}
             onChange={(e) => {
-              setLoginCred({ ...loginCred, email: e.target.value });
+              setLoginCred({ ...loginCred, username: e.target.value });
             }}
           />
         </Form.Group>
