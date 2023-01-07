@@ -1,5 +1,6 @@
 const express = require("express");
 const router = require("./routes/userRoutes");
+const cors = require("cors");
 
 const port = 5000;
 
@@ -11,5 +12,11 @@ app.use(express.urlencoded({ extended: false }));
 app.listen(port, () => {
   console.log(`Server started in port: ${port}`);
 });
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.use("/user", router);
