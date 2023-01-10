@@ -17,7 +17,10 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      await axios.post("http://localhost:5000/user/login", loginCred);
+      let login = await axios.post(
+        "http://localhost:5000/user/login",
+        loginCred
+      );
 
       console.log("login successful");
 
@@ -25,6 +28,13 @@ const Login = () => {
         username: "",
         password: "",
       });
+
+      const accessToken = login.data.accessToken.jwtToken;
+      const idToken = login.data.idToken.jwtToken;
+
+      const user_data = login.data.accessToken.payload;
+
+      document.cookie = `user_data=${JSON.stringify(user_data)}`;
 
       console.log("Login successful");
     } catch (error) {
