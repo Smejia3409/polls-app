@@ -37,6 +37,7 @@ const Login = () => {
 
       document.cookie = `user_data=${JSON.stringify(user_data)}`;
 
+      router.push("/home");
       console.log("Login successful");
     } catch (error) {
       console.log(error);
