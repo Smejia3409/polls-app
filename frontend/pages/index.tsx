@@ -5,6 +5,8 @@ import Register from "../components/Register";
 import Template from "../components/Template";
 import { SessionContext } from "../components/Context";
 import { useState, useContext, useEffect } from "react";
+import { Nav } from "react-bootstrap";
+import Header from "../components/Header";
 
 export default function Home() {
   const [data, setData] = useState<any>(null);
@@ -35,8 +37,40 @@ export default function Home() {
         <title>Easy Polls</title>
       </Head>
       <SessionContext.Provider value={data}>
-        <Template childern={<Login />}></Template>
+        <Header />
+        <StartPage />
       </SessionContext.Provider>
     </>
   );
 }
+
+const StartPage = () => {
+  const [userForm, setUserForm] = useState<boolean>(false);
+
+  return (
+    <>
+      <Nav justify variant="tabs">
+        <Nav.Item>
+          <Nav.Link
+            onClick={() => {
+              setUserForm(true);
+            }}
+          >
+            Sigin
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link
+            onClick={() => {
+              setUserForm(false);
+            }}
+          >
+            Register
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+
+      {userForm ? <Login /> : <Register />}
+    </>
+  );
+};

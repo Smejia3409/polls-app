@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 
+import { useRouter } from "next/navigation";
+
 const Login = () => {
+  const router = useRouter();
+
   interface IloginCred {
     username: string;
     password: string;
@@ -29,9 +33,6 @@ const Login = () => {
         password: "",
       });
 
-      const accessToken = login.data.accessToken.jwtToken;
-      const idToken = login.data.idToken.jwtToken;
-
       const user_data = login.data.accessToken.payload;
 
       document.cookie = `user_data=${JSON.stringify(user_data)}`;
@@ -41,6 +42,10 @@ const Login = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    // router.push()
+  });
 
   return (
     <>
