@@ -35,7 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <SessionContext.Provider value={data}>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </SessionContext.Provider>
     </>
   );

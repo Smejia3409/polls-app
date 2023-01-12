@@ -1,22 +1,50 @@
 import React, { useContext } from "react";
 
-import { Container, Nav, Navbar, NavbarBrand } from "react-bootstrap";
+import { Container, Dropdown, Nav, Navbar, NavbarBrand } from "react-bootstrap";
 import { SessionContext } from "./Context";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const UserContext = useContext<any>(SessionContext);
+  const router = useRouter();
+
+  if (UserContext === null) {
+  }
+
   return (
-    <div className="bg-light">
+    <Container className="bg-light">
       <Navbar>
         <NavbarBrand href="/">Easy Polls</NavbarBrand>
-        <Container>{UserContext != null && <NavLogin />}</Container>
+
+        <Navbar.Collapse className="justify-content-end">
+          {UserContext != null && <NavLogin />}
+        </Navbar.Collapse>
       </Navbar>
-    </div>
+    </Container>
   );
 };
 
 const NavLogin = () => {
-  return <Nav.Link>Home</Nav.Link>;
+  const UserContext = useContext<any>(SessionContext);
+
+  let data = JSON.parse(UserContext);
+  let user = data.username;
+
+  return (
+    <>
+      <Nav.Link>Home</Nav.Link>
+      <Dropdown>
+        <Dropdown.Toggle variant="success" id="dropdown-basic">
+          {user}
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item>
+            <p className="text-danger">Log Out</p>
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    </>
+  );
 };
 
 export default Header;
