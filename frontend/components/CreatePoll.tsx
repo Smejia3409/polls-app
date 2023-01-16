@@ -10,6 +10,11 @@ function CreatePoll() {
     count: number;
   }
 
+  interface IPoll {
+    question: string;
+    answers: IAnswers[];
+  }
+
   const [show, setShow] = useState<boolean>(false);
 
   const handleClose = () => setShow(false);
@@ -18,6 +23,7 @@ function CreatePoll() {
   const [answersList, setAnswersList] = useState<IAnswers[]>([]);
   const [answer, setAnswer] = useState<string>("");
   const [question, setQuestion] = useState<string>("");
+  const [poll, setPoll] = useState<IPoll>();
 
   const addAnswer = (event: any) => {
     event.preventDefault();
@@ -32,6 +38,25 @@ function CreatePoll() {
       setAnswer("");
     } else {
       alert("please dont leave input blank");
+    }
+  };
+
+  const submitForm = (event: any) => {
+    event.preventDefault();
+    if (answersList.length < 2) {
+      alert("At least 2 responses are needed");
+    } else {
+      let pollObj = {
+        question: question,
+        answers: answersList,
+      };
+      handleClose();
+      alert("Poll created");
+      console.log(poll);
+      setPoll(pollObj);
+      setAnswer("");
+      setAnswersList([]);
+      setQuestion("");
     }
   };
 
@@ -65,7 +90,7 @@ function CreatePoll() {
             <Form.Group className="mb-3" controlId="anwser">
               <Form.Control
                 type="text"
-                placeholder="Enter a answer"
+                placeholder="Enter a response"
                 value={answer}
                 onChange={(e) => {
                   setAnswer(e.target.value);
@@ -102,7 +127,7 @@ function CreatePoll() {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary" onClick={submitForm}>
               Create poll
             </Button>
           </Modal.Footer>
