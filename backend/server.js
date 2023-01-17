@@ -1,5 +1,6 @@
 const express = require("express");
 const router = require("./routes/userRoutes");
+const pollRouter = require("./routes/pollRoutes");
 const cors = require("cors");
 
 const port = 5000;
@@ -20,3 +21,4 @@ app.use(
 );
 
 app.use("/user", router);
+app.use("/poll", pollRouter);
