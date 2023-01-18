@@ -1,11 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { SessionContext } from "./Context";
+import axios from "axios";
+const uuidv4 = require("uuid");
 
 function CreatePoll() {
+  const UserContext = useContext<any>(SessionContext);
+
+  let data = JSON.parse(UserContext);
+
+  let id = uuidv4.v1();
+
   interface IAnswers {
-    id: number;
+    answerId: number;
     anwser: string;
     count: number;
   }
@@ -29,7 +38,7 @@ function CreatePoll() {
     event.preventDefault();
     if (answer != "") {
       const res: IAnswers = {
-        id: answersList.length,
+        answerId: answersList.length,
         anwser: answer,
         count: 0,
       };
@@ -41,28 +50,41 @@ function CreatePoll() {
     }
   };
 
-  const submitForm = (event: any) => {
+  const submitForm = async (event: any) => {
     event.preventDefault();
-    if (answersList.length < 2) {
-      alert("At least 2 responses are needed");
-    } else {
-      let pollObj = {
-        question: question,
-        answers: answersList,
-      };
-      handleClose();
-      alert("Poll created");
-      console.log(poll);
-      setPoll(pollObj);
-      setAnswer("");
-      setAnswersList([]);
-      setQuestion("");
+    try {
+      if (answersList.length < 2) {
+        alert("At least 2 responses are needed");
+      } else {
+        let pollObj = {
+          id: id.toString(),
+          question: question,
+          answers: answersList,
+          user: data.username,
+        };
+
+        await axios.put("http://localhost:5000/poll/addPoll", poll);
+
+        handleClose();
+
+        alert("Poll created");
+
+        console.log(pollObj);
+
+        setPoll(pollObj);
+        setAnswer("");
+        setAnswersList([]);
+        setQuestion("");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
     console.log("render");
-  }, [answersList]);
+    console.log(typeof id);
+  }, [answersList, data]);
 
   return (
     <>
@@ -101,7 +123,7 @@ function CreatePoll() {
 
             {answersList.map((a: IAnswers) => {
               return (
-                <div key={a.id + a.anwser} className="row">
+                <div key={a.answerId + a.anwser} className="row">
                   <div className="col-9">
                     <p>{a.anwser}</p>
                   </div>
@@ -110,7 +132,8 @@ function CreatePoll() {
                       variant="danger"
                       onClick={() => {
                         let deleted = answersList.filter(
-                          (ans) => ans.id + ans.anwser != a.id + a.anwser
+                          (ans) =>
+                            a.answerId + ans.anwser != a.answerId + a.anwser
                         );
                         setAnswersList(deleted);
                       }}

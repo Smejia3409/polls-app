@@ -27,11 +27,12 @@ const getPolls = async (req, res) => {
 
 const addPoll = async (req, res) => {
   try {
-    const { id, question, user } = req.body;
+    const { id, answers, question, user } = req.body;
 
     const poll = {
       id: id,
       question: question,
+      answers: answers,
       user: user,
     };
     const params = {
