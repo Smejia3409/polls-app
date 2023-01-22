@@ -26,9 +26,9 @@ const getPolls = async (req, res) => {
 };
 
 const addPoll = async (req, res) => {
-  try {
-    const { id, answers, question, user } = req.body;
+  const { id, answers, question, user } = req.body;
 
+  try {
     const poll = {
       id: id,
       question: question,
@@ -37,7 +37,12 @@ const addPoll = async (req, res) => {
     };
     const params = {
       TableName: TABLE_NAME,
-      Item: poll,
+      Item: {
+        id: id,
+        question: question,
+        answers: answers,
+        user: user,
+      },
     };
     const data = await dynamoClient.put(params).promise();
     if (data) {
@@ -46,6 +51,15 @@ const addPoll = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    console.log("error ran");
+    const poll = {
+      id: id,
+      question: question,
+      answers: answers,
+      user: user,
+    };
+
+    console.log(poll);
     res.status(400).json(error);
   }
 };

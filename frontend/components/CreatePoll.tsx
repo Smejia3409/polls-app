@@ -63,7 +63,7 @@ function CreatePoll() {
           user: data.username,
         };
 
-        await axios.put("http://localhost:5000/poll/addPoll", poll);
+        await axios.put("http://localhost:5000/poll/addPoll", pollObj);
 
         handleClose();
 
@@ -81,10 +81,7 @@ function CreatePoll() {
     }
   };
 
-  useEffect(() => {
-    console.log("render");
-    console.log(typeof id);
-  }, [answersList, data]);
+  useEffect(() => {}, [answersList, data]);
 
   return (
     <>
