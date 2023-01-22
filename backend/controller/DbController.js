@@ -1,5 +1,5 @@
 var AWS = require("aws-sdk");
-require("dotenv").config({ path: "../../.env" });
+require("dotenv").config({ path: "backend/controller/.env" });
 
 AWS.config.update({
   region: "us-east-1",

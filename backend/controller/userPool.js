@@ -1,5 +1,5 @@
 const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config({ path: "backend/controller/.env" });
 
 const poolData = {
   UserPoolId: process.env.USER_POOL_ID,
@@ -73,6 +73,7 @@ const login = async (req, res) => {
   } catch (error) {
     console.log("user dont exist");
     console.log(error);
+    console.log(process.env.USER_POOL_ID);
     res.status(400).json({ message: error });
   }
 };
