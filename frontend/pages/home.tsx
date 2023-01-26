@@ -4,6 +4,8 @@ import { SessionContext } from "../components/Context";
 import Header from "../components/Header";
 import CreatePoll from "../components/CreatePoll";
 import axios from "axios";
+import { Button, Card } from "react-bootstrap";
+import MyPolls from "../components/MyPolls";
 
 const home = ({ data }) => {
   // let myPolls = data.filter((poll: any) => {
@@ -15,6 +17,10 @@ const home = ({ data }) => {
 
   console.log(data);
 
+  useEffect(() => {
+    console.log(username);
+  });
+
   return (
     <>
       <Header />
@@ -24,9 +30,7 @@ const home = ({ data }) => {
       </div>
 
       <div>
-        {data.map((poll: any) => {
-          return <p>{poll.user}</p>;
-        })}
+        <MyPolls list={data} />
       </div>
     </>
   );

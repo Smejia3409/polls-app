@@ -15,7 +15,7 @@ function CreatePoll() {
 
   interface IAnswers {
     answerId: number;
-    anwser: string;
+    answer: string;
     count: number;
   }
 
@@ -39,7 +39,7 @@ function CreatePoll() {
     if (answer != "") {
       const res: IAnswers = {
         answerId: answersList.length,
-        anwser: answer,
+        answer: answer,
         count: 0,
       };
 
@@ -106,7 +106,7 @@ function CreatePoll() {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="anwser">
+            <Form.Group className="mb-3" controlId="answer">
               <Form.Control
                 type="text"
                 placeholder="Enter a response"
@@ -120,9 +120,9 @@ function CreatePoll() {
 
             {answersList.map((a: IAnswers) => {
               return (
-                <div key={a.answerId + a.anwser} className="row">
+                <div key={a.answerId + a.answer} className="row">
                   <div className="col-9">
-                    <p>{a.anwser}</p>
+                    <p>{a.answer}</p>
                   </div>
                   <div className="col">
                     <Button
@@ -130,7 +130,7 @@ function CreatePoll() {
                       onClick={() => {
                         let deleted = answersList.filter(
                           (ans) =>
-                            a.answerId + ans.anwser != a.answerId + a.anwser
+                            a.answerId + ans.answer != a.answerId + a.answer
                         );
                         setAnswersList(deleted);
                       }}
