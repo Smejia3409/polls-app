@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { IPoll, IpollAns } from "../jsfiles/interfaces";
+import axios from "axios";
 
 const MyPolls = (props: { list: [IPoll] }) => {
+  const updatePoll = async (poll: IPoll) => {
+    try {
+      let data = await axios.put("http://localhost:5000/poll/addPoll", poll);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <h4>My polls</h4>
@@ -18,9 +28,17 @@ const MyPolls = (props: { list: [IPoll] }) => {
               <p>Votes: {pollCount}</p>
 
               {poll.answers.map((ans: IpollAns) => {
+                let [count, setCount] = useState<number>(ans.count);
+                pollCount = pollCount + ans.count;
+                const [vote, setVote] = useState({
+                  voteCount: ans.count,
+                  totalVotes: numOfAns,
+                });
                 const myAns = () => {
                   poll.answers[ans.answerId].count++;
                   console.log(poll);
+                  updatePoll(poll);
+                  setCount(count + 1);
                 };
 
                 return (
@@ -28,9 +46,7 @@ const MyPolls = (props: { list: [IPoll] }) => {
                     <Button className="btn btn-success col" onClick={myAns}>
                       {ans.answer}
                     </Button>
-                    <Card.Text className="col">
-                      {ans.count / numOfAns}
-                    </Card.Text>
+                    <Card.Text className="col">{count}</Card.Text>
                     <br />
                   </div>
                 );
