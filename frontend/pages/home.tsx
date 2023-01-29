@@ -6,6 +6,7 @@ import CreatePoll from "../components/CreatePoll";
 import axios from "axios";
 import { Button, Card } from "react-bootstrap";
 import MyPolls from "../components/MyPolls";
+import Loading from "../components/Loading";
 
 const home = ({ data }) => {
   // let myPolls = data.filter((poll: any) => {
@@ -13,12 +14,12 @@ const home = ({ data }) => {
   // });
 
   const UserContext = useContext<any>(SessionContext);
-  const username = JSON.parse(UserContext);
+  const contextData = JSON.parse(UserContext);
 
-  console.log(data);
+  console.log(contextData);
 
   useEffect(() => {
-    console.log(username);
+    console.log(contextData);
   });
 
   return (
