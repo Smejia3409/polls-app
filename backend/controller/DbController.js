@@ -64,4 +64,23 @@ const addPoll = async (req, res) => {
   }
 };
 
-module.exports = { getPolls, addPoll };
+const getSpecificPoll = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const params = {
+      TableName: TABLE_NAME,
+      FilterExpression: "id = :id",
+      ExpressionAttributeValues: { ":id": id },
+    };
+
+    const data = await dynamoClient.scan(params).promise();
+
+    console.log(data);
+    res.status(200).json(data.Items);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+
+module.exports = { getPolls, addPoll, getSpecificPoll };

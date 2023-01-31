@@ -1,9 +1,12 @@
 import { useRouter } from "next/router";
 import React from "react";
+import { IPoll } from "../../../jsfiles/interfaces";
 
-const poll = (data: any) => {
+const poll = (data: [IPoll]) => {
   const router = useRouter();
   const { id } = router.query;
+
+  console.log(data);
 
   return <div>This is poll page {id}</div>;
 };
