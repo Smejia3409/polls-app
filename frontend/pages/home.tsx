@@ -7,8 +7,9 @@ import axios from "axios";
 import { Button, Card } from "react-bootstrap";
 import MyPolls from "../components/MyPolls";
 import Loading from "../components/Loading";
+import { IPoll } from "../jsfiles/interfaces";
 
-const home = ({ data }) => {
+const home = (props: { data: [IPoll] }) => {
   // let myPolls = data.filter((poll: any) => {
   //   return poll.user ===
   // });
@@ -31,7 +32,7 @@ const home = ({ data }) => {
       </div>
 
       <div>
-        <MyPolls list={data} />
+        <MyPolls list={props.data} />
       </div>
     </>
   );

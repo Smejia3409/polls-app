@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { IPoll, IpollAns } from "../jsfiles/interfaces";
 import { SessionContext } from "../components/Context";
+import { useRouter } from "next/navigation";
 
 import axios from "axios";
 import Loading from "./Loading";
@@ -20,6 +21,7 @@ export default MyPolls;
 
 const UserPolls = (props: { list: [IPoll]; data: any }) => {
   let myPolls: IPoll[] = [];
+  const router = useRouter();
 
   if (props.data) {
     myPolls = props.list.filter((poll) => {
@@ -35,6 +37,12 @@ const UserPolls = (props: { list: [IPoll]; data: any }) => {
       console.log(error);
     }
   };
+
+  //redirect to poll page using poll id
+  const pollPage = (id: string) => {
+    router.push(`/poll/${id}`);
+  };
+
   return (
     <div className="container">
       <h4>My polls</h4>
@@ -48,7 +56,21 @@ const UserPolls = (props: { list: [IPoll]; data: any }) => {
             <Col sm={6} md={4}>
               <Card style={{ width: "18rem" }}>
                 <Card.Body>
-                  <Card.Title>{poll.question}</Card.Title>
+                  <Row>
+                    <Col sm={8}>
+                      <Card.Title>{poll.question}</Card.Title>
+                    </Col>
+                    <Col sm={4}>
+                      <Button
+                        onClick={() => {
+                          pollPage(poll.id);
+                        }}
+                      >
+                        Graph
+                      </Button>
+                    </Col>
+                  </Row>
+
                   <p>Votes: {pollCount}</p>
 
                   {poll.answers.map((ans: IpollAns) => {

@@ -27,9 +27,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     session_data();
-    if (getSymbolCookie()) {
-      router.push("/home");
-    }
+    // if (getSymbolCookie()) {
+    //   router.push("/home");
+    // }
   }, [data]);
 
   return (
