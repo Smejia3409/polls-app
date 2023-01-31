@@ -6,134 +6,25 @@ import { useRouter } from "next/navigation";
 
 import axios from "axios";
 import Loading from "./Loading";
+import PollCard from "./PollCard";
 
 const MyPolls = (props: { list: [IPoll] }) => {
   const UserContext = useContext<any>(SessionContext);
 
   let data = JSON.parse(UserContext);
+  let myPolls: [IPoll] = props.list;
+  let list: any = [];
 
-  return (
-    <>{!data ? <Loading /> : <UserPolls list={props.list} data={data} />}</>
-  );
+  if (data) {
+    list = props.list.filter((poll: IPoll) => {
+      return poll.user === data.username;
+    });
+  } else {
+    console.log("no user polls");
+    console.log(data);
+  }
+
+  return <>{!list ? <Loading /> : <PollCard list={list} />}</>;
 };
 
 export default MyPolls;
-
-const UserPolls = (props: { list: [IPoll]; data: any }) => {
-  let myPolls: IPoll[] = [];
-  const router = useRouter();
-
-  if (props.data) {
-    myPolls = props.list.filter((poll) => {
-      return poll.user === props.data.username;
-    });
-  }
-
-  const updatePoll = async (poll: IPoll) => {
-    try {
-      let data = await axios.put("http://localhost:5000/poll/addPoll", poll);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //redirect to poll page using poll id
-  const pollPage = (id: string) => {
-    router.push(`/poll/${id}`);
-  };
-
-  return (
-    <div className="container">
-      <h4>My polls</h4>
-      <Row>
-        {myPolls.map((poll: IPoll) => {
-          let numOfAns = poll.answers.length;
-          console.log(numOfAns);
-          const [pollCount, setPollCount] = useState<number>(0);
-
-          return (
-            <Col sm={6} md={4}>
-              <Card style={{ width: "18rem" }}>
-                <Card.Body>
-                  <Row>
-                    <Col sm={8}>
-                      <Card.Title>{poll.question}</Card.Title>
-                    </Col>
-                    <Col sm={4}>
-                      <Button
-                        onClick={() => {
-                          pollPage(poll.id);
-                        }}
-                      >
-                        Graph
-                      </Button>
-                    </Col>
-                  </Row>
-
-                  <p>Votes: {pollCount}</p>
-
-                  {poll.answers.map((ans: IpollAns) => {
-                    let [count, setCount] = useState<number>(ans.count);
-                    const [vote, setVote] = useState({
-                      voteCount: ans.count,
-                      totalVotes: numOfAns,
-                    });
-                    const myAns = () => {
-                      poll.answers[ans.answerId].count++;
-                      console.log(poll);
-                      updatePoll(poll);
-                      setCount(count + 1);
-                      setPollCount(pollCount + ans.count);
-                    };
-
-                    return (
-                      <div className="row" key={ans.answer}>
-                        <Button className="btn btn-success col" onClick={myAns}>
-                          {ans.answer}
-                        </Button>
-                        <Card.Text className="col">{count}</Card.Text>
-                        <br />
-                      </div>
-                    );
-                  })}
-                </Card.Body>
-              </Card>
-            </Col>
-          );
-        })}
-      </Row>
-    </div>
-  );
-};
-
-// {
-//   data.map((poll: any) => {
-//     let numOfAns = poll.answers.length;
-//     console.log(numOfAns);
-
-//     return (
-//       <Card style={{ width: "18rem" }}>
-//         <Card.Body>
-//           <Card.Title>{poll.question}</Card.Title>
-//           {poll.answers.map((ans: any) => {
-//             const myAns = () => {
-//               console.log(ans.anwser);
-//             };
-//             return (
-//               <div className="row" key={ans.anwser}>
-//                 <Button className="btn btn-success col" onClick={myAns}>
-//                   {ans.anwser}
-//                 </Button>
-//                 <Card.Text className="col">
-//                   {ans.count / numOfAns}
-//                 </Card.Text>
-//                 <br />
-//               </div>
-//             );
-//           })}
-//         </Card.Body>
-//       </Card>
-//     );
-//   });
-// }

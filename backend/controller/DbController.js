@@ -66,11 +66,10 @@ const addPoll = async (req, res) => {
 
 const getSpecificPoll = async (req, res) => {
   try {
-    const { id } = req.body;
     const params = {
       TableName: TABLE_NAME,
       FilterExpression: "id = :id",
-      ExpressionAttributeValues: { ":id": id },
+      ExpressionAttributeValues: { ":id": req.params.id },
     };
 
     const data = await dynamoClient.scan(params).promise();

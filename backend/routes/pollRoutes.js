@@ -9,6 +9,6 @@ const {
 
 pollRouter.get("/getPolls", getPolls);
 pollRouter.put("/addPoll", addPoll);
-pollRouter.get("/selectedpoll", getSpecificPoll);
+pollRouter.get("/selectedpoll/:id", getSpecificPoll);
 
 module.exports = pollRouter;

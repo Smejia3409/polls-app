@@ -1,18 +1,20 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { IPoll } from "../../../jsfiles/interfaces";
+import axios from "axios";
 
 const poll = (data: [IPoll]) => {
+  console.log(data);
   const router = useRouter();
   const { id } = router.query;
-
-  console.log(data);
 
   return <div>This is poll page {id}</div>;
 };
 
-export async function getServerSideProps() {
-  const res = await fetch(`http://localhost:5000/poll/getPolls`);
+export async function getServerSideProps(context: any) {
+  const { id } = context.query;
+  const res = await fetch(`http://localhost:5000/poll/selectedpoll/${id}`);
+
   const data = await res.json();
 
   if (!data) {
