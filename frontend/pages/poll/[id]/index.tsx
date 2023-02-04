@@ -4,6 +4,7 @@ import { IPoll, IpollAns } from "../../../jsfiles/interfaces";
 import axios from "axios";
 import { Card } from "react-bootstrap";
 import PollCard from "../../../components/PollCard";
+import Graph from "../../../components/Graph";
 
 const poll = (data: any) => {
   const router = useRouter();
@@ -25,6 +26,11 @@ const poll = (data: any) => {
     <div className="container">
       <p> This is poll page {id}</p>
       <p>{num}</p>
+
+      <div>
+        <Graph poll={poll} />
+      </div>
+
       <Card>
         <Card.Body>
           <Card.Title>{poll.question}</Card.Title>
