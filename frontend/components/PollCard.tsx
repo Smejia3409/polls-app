@@ -32,7 +32,7 @@ const PollCard = (props: { list: [IPoll] }) => {
 
           return (
             <Col sm={6} md={4}>
-              <Card style={{ width: "18rem" }}>
+              <Card>
                 <Card.Body>
                   <Row>
                     <Col sm={8}>
