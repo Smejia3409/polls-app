@@ -1,27 +1,28 @@
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IPoll, IpollAns } from "../../../jsfiles/interfaces";
 import axios from "axios";
 import { Button, Card, Row } from "react-bootstrap";
 import PollCard from "../../../components/PollCard";
 import Graph from "../../../components/Graph";
+import { useRouter } from "next/router";
 
 const poll = (data: any) => {
   const router = useRouter();
-  const { id } = router.query;
+
   const [view, setView] = useState<boolean>(false);
 
   let poll: IPoll = data.data[0];
-  // if (data.id) {
-  //   console.log(1);
-  // } else {
-  //   console.log(0);
-  // }
-  const [voteCount, setVoteCount] = useState<number>(0);
+
   let num = 0;
-  poll.answers.forEach((count) => {
-    num = num + count.count;
-  });
+
+  if (!poll) {
+    console.log("No poll");
+  } else {
+    poll.answers.forEach((count) => {
+      num = num + count.count;
+    });
+    console.log("Poll is there");
+  }
 
   const updatePoll = async (poll: IPoll) => {
     try {
@@ -31,6 +32,12 @@ const poll = (data: any) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (poll.question == null) {
+      router.push("/home");
+    }
+  }, [poll]);
 
   return (
     <div className="container">
@@ -77,10 +84,9 @@ const poll = (data: any) => {
 export async function getServerSideProps(context: any) {
   const { id } = context.query;
   const res = await fetch(`http://localhost:5000/poll/selectedpoll/${id}`);
-
   const data = await res.json();
 
-  if (!data) {
+  if (data[0] === undefined) {
     return {
       notFound: true,
     };
