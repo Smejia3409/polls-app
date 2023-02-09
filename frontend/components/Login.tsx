@@ -3,6 +3,7 @@ import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 
 import { useRouter } from "next/navigation";
+import { getCookie } from "../jsfiles/cookies";
 
 const Login = () => {
   const router = useRouter();
@@ -45,7 +46,9 @@ const Login = () => {
   };
 
   useEffect(() => {
-    // router.push()
+    if (getCookie("user_data")) {
+      router.push("/home");
+    }
   });
 
   return (

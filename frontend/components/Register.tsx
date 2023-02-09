@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
+import { getCookie } from "../jsfiles/cookies";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
+  const router = useRouter();
+
   interface IRegisterCred {
     email: string;
     username: string;
@@ -31,6 +35,12 @@ const Register = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (getCookie("user_data")) {
+      router.push("/home");
+    }
+  });
 
   return (
     <>
