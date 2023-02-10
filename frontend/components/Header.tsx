@@ -1,6 +1,13 @@
 import React, { useContext } from "react";
 
-import { Container, Dropdown, Nav, Navbar, NavbarBrand } from "react-bootstrap";
+import {
+  Container,
+  Dropdown,
+  Nav,
+  NavDropdown,
+  Navbar,
+  NavbarBrand,
+} from "react-bootstrap";
 import { SessionContext } from "./Context";
 import { useRouter } from "next/router";
 
@@ -13,7 +20,7 @@ const Header = () => {
 
   return (
     <Container className="bg-light">
-      <Navbar>
+      <Navbar expand="lg">
         <NavbarBrand href="/">Easy Polls</NavbarBrand>
 
         <Navbar.Collapse className="justify-content-end">
@@ -32,17 +39,11 @@ const NavLogin = () => {
 
   return (
     <>
-      <Nav.Link>Home</Nav.Link>
-      <Dropdown>
-        <Dropdown.Toggle variant="success" id="dropdown-basic">
-          {user}
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item>
-            <p className="text-danger">Log Out</p>
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+      <NavDropdown title={user}>
+        <NavDropdown.Item>
+          <p className="text-danger">Log Out</p>
+        </NavDropdown.Item>
+      </NavDropdown>
     </>
   );
 };
