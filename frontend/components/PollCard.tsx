@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IPoll, IpollAns } from "../jsfiles/interfaces";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { Row, Col, Card, Button } from "react-bootstrap";
+import { Row, Col, Card, Button, Accordion } from "react-bootstrap";
 
 const PollCard = (props: { list: [IPoll] }) => {
   const router = useRouter();
@@ -26,62 +26,47 @@ const PollCard = (props: { list: [IPoll] }) => {
       <h4>My polls</h4>
       <Row>
         {props.list.map((poll: IPoll) => {
-          let numOfAns = poll.answers.length;
-          console.log(numOfAns);
-          const [pollCount, setPollCount] = useState<number>(0);
+          //gets sum of poll votes
+          let count = poll.answers.reduce((sum: number, amount: IpollAns) => {
+            return sum + amount.count;
+          }, 0);
 
           return (
-            <Col sm={6} md={4}>
-              <Card>
-                <Card.Body>
-                  <Row>
-                    <Col sm={8}>
-                      <Card.Title>{poll.question}</Card.Title>
-                    </Col>
-                    <Col sm={4}>
-                      <Button
-                        onClick={() => {
-                          pollPage(poll.id);
-                        }}
-                      >
-                        Graph
-                      </Button>
-                    </Col>
-                  </Row>
-
-                  <p>Votes: {pollCount}</p>
-
-                  {poll.answers.map((ans: IpollAns) => {
-                    let [count, setCount] = useState<number>(ans.count);
-                    const [vote, setVote] = useState({
-                      voteCount: ans.count,
-                      totalVotes: numOfAns,
-                    });
-                    const myAns = () => {
-                      poll.answers[ans.answerId].count++;
-                      console.log(poll);
-                      updatePoll(poll);
-                      setCount(count + 1);
-                      setPollCount(pollCount + ans.count);
-                    };
-
-                    return (
-                      <div className="row" key={ans.answer}>
-                        <Button className="btn btn-success col" onClick={myAns}>
-                          {ans.answer}
-                        </Button>
-                        <Card.Text className="col">{count}</Card.Text>
-                        <br />
-                      </div>
-                    );
-                  })}
-                </Card.Body>
-              </Card>
-            </Col>
+            <AccordianPoll title={poll.question} id={poll.id} count={count} />
           );
         })}
       </Row>
     </div>
+  );
+};
+
+const AccordianPoll = (props: { title: string; id: string; count: number }) => {
+  const router = useRouter();
+
+  const pollPage = (id: string) => {
+    router.push(`/poll/${id}`);
+  };
+  return (
+    <Accordion defaultActiveKey="0">
+      <Accordion.Item eventKey="1">
+        <Accordion.Header>{props.title}</Accordion.Header>
+        <Accordion.Body>
+          <div className="">
+            <p> Votes: {props.count}</p>
+          </div>
+          <div className="d-flex flex-row-end">
+            <Button
+              onClick={() => {
+                pollPage(props.id);
+              }}
+            >
+              Public view
+            </Button>
+            <Button variant="danger">Delete</Button>
+          </div>
+        </Accordion.Body>
+      </Accordion.Item>
+    </Accordion>
   );
 };
 
