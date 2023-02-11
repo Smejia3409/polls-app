@@ -24,6 +24,8 @@ const MyPolls = (props: { list: [IPoll] }) => {
     console.log(data);
   }
 
+  useEffect(() => {}, [list]);
+
   return <>{!list ? <Loading /> : <PollCard list={list} />}</>;
 };
 

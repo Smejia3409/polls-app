@@ -21,13 +21,18 @@ const home = (props: { data: [IPoll] }) => {
 
   useEffect(() => {
     console.log(contextData);
-  });
+  }, [contextData]);
 
+  return <>{!contextData ? <Loading /> : <ActiveUser data={props.data} />}</>;
+};
+
+const ActiveUser = (props: { data: [IPoll] }) => {
   return (
     <>
       <Header />
 
-      <div>
+      <div className=" ">
+        <br />
         <CreatePoll />
       </div>
 

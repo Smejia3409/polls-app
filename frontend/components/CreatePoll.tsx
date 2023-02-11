@@ -84,7 +84,7 @@ function CreatePoll() {
   useEffect(() => {}, [answersList, data]);
 
   return (
-    <>
+    <div className="container d-flex flex-row-reverse">
       <Button variant="primary" onClick={handleShow}>
         Create Poll
       </Button>
@@ -153,7 +153,7 @@ function CreatePoll() {
           </Modal.Footer>
         </Form>
       </Modal>
-    </>
+    </div>
   );
 }
 
