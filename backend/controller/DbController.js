@@ -82,4 +82,23 @@ const getSpecificPoll = async (req, res) => {
   }
 };
 
-module.exports = { getPolls, addPoll, getSpecificPoll };
+const deletePoll = async (req, res) => {
+  try {
+    const params = {
+      TableName: TABLE_NAME,
+      Key: {
+        id: req.params.id,
+      },
+    };
+
+    const data = await dynamoClient.delete(params).promise();
+
+    console.log(`Poll: ${req.params.id} got deleted`);
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+module.exports = { getPolls, addPoll, getSpecificPoll, deletePoll };

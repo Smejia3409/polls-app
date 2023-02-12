@@ -46,8 +46,21 @@ const AccordianPoll = (props: { title: string; id: string; count: number }) => {
   const pollPage = (id: string) => {
     router.push(`/poll/${id}`);
   };
+
+  const deletePoll = (id: string) => {
+    try {
+      const deletedPoll = axios.delete(
+        `http://localhost:5000/poll/deletepoll/${id}`
+      );
+
+      console.log(deletedPoll);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <Accordion defaultActiveKey="0">
+    <Accordion defaultActiveKey="0" key={props.id}>
       <Accordion.Item eventKey="1">
         <Accordion.Header>{props.title}</Accordion.Header>
         <Accordion.Body>
@@ -62,7 +75,14 @@ const AccordianPoll = (props: { title: string; id: string; count: number }) => {
             >
               Public view
             </Button>
-            <Button variant="danger">Delete</Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                deletePoll(props.id);
+              }}
+            >
+              Delete
+            </Button>
           </div>
         </Accordion.Body>
       </Accordion.Item>
