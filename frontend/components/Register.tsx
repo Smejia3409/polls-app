@@ -19,6 +19,8 @@ const Register = () => {
     password: "",
   });
 
+  const [status, setStatus] = useState<string>("");
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -31,8 +33,11 @@ const Register = () => {
         username: "",
         password: "",
       });
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.log(error.response.data.data.code);
+      if (error.response.data.data.code === "UsernameExistsException") {
+        setStatus("This username is already in use");
+      }
     }
   };
 
@@ -85,6 +90,7 @@ const Register = () => {
         <Button variant="primary" type="submit">
           Register
         </Button>
+        <p className="text text-danger">{status}</p>
       </Form>
     </>
   );

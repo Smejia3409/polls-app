@@ -18,6 +18,8 @@ const Login = () => {
     password: "",
   });
 
+  const [status, setStatus] = useState<string>("");
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -38,9 +40,11 @@ const Login = () => {
 
       document.cookie = `user_data=${JSON.stringify(user_data)}`;
 
+      setStatus("");
       router.push("/home");
       console.log("Login successful");
     } catch (error) {
+      setStatus("Invalid credentials, please try again");
       console.log(error);
     }
   };
@@ -82,6 +86,8 @@ const Login = () => {
         <Button variant="primary" type="submit">
           Login
         </Button>
+
+        <p className="text text-danger">{status}</p>
       </Form>
     </>
   );
