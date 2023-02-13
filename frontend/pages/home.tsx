@@ -29,6 +29,7 @@ const home = (props: { data: [IPoll] }) => {
 };
 
 const ActiveUser = (props: { data: [IPoll] }) => {
+  useEffect(() => {}, [props.data]);
   return (
     <>
       <Header />
