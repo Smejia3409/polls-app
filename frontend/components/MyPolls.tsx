@@ -9,10 +9,9 @@ import Loading from "./Loading";
 import PollCard from "./PollCard";
 
 const MyPolls = (props: { list: [IPoll] }) => {
-  const UserContext = useContext<any>(SessionContext);
+  const [userContext, setUserContext] = useContext<any>(SessionContext);
 
-  let data = JSON.parse(UserContext);
-  let myPolls: [IPoll] = props.list;
+  let data = JSON.parse(userContext);
   let list: any = [];
 
   if (data) {

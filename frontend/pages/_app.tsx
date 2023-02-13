@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [data, setData] = useState<any>(null);
+  const [userContext, setUserContext] = useState<any>(null);
   const router = useRouter();
 
   function getSymbolCookie() {
@@ -19,9 +19,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const session_data = () => {
     if (getSymbolCookie()) {
-      setData(getSymbolCookie());
+      setUserContext(getSymbolCookie());
     } else {
-      setData(null);
+      setUserContext(null);
     }
   };
 
@@ -30,11 +30,11 @@ export default function App({ Component, pageProps }: AppProps) {
     // if (getSymbolCookie()) {
     //   router.push("/home");
     // }
-  }, [data]);
+  }, [userContext]);
 
   return (
     <>
-      <SessionContext.Provider value={data}>
+      <SessionContext.Provider value={[userContext, setUserContext]}>
         <Component {...pageProps} />
       </SessionContext.Provider>
     </>

@@ -7,9 +7,9 @@ import axios from "axios";
 const uuidv4 = require("uuid");
 
 function CreatePoll() {
-  const UserContext = useContext<any>(SessionContext);
+  const [userContext, setUserContext] = useContext<any>(SessionContext);
 
-  let data = JSON.parse(UserContext);
+  let data = JSON.parse(userContext);
 
   let id = uuidv4.v1();
 

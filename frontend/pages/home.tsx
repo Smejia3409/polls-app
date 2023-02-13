@@ -14,8 +14,10 @@ const home = (props: { data: [IPoll] }) => {
   //   return poll.user ===
   // });
 
-  const UserContext = useContext<any>(SessionContext);
-  const contextData = JSON.parse(UserContext);
+  // const UserContext = useContext<any>(SessionContext);
+  const [userContext, setUserContext] = useContext(SessionContext);
+
+  const contextData = JSON.parse(userContext);
 
   console.log(contextData);
 

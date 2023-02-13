@@ -9,22 +9,35 @@ import {
   NavbarBrand,
 } from "react-bootstrap";
 import { SessionContext } from "./Context";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
+import { delete_cookie } from "../jsfiles/cookies";
 
 const Header = () => {
-  const UserContext = useContext<any>(SessionContext);
+  const [userContext, setUserContext] = useContext<any>(SessionContext);
   const router = useRouter();
 
-  if (UserContext === null) {
-  }
+  const logoClick = () => {
+    if (userContext) {
+      router.push("/home");
+    } else {
+      router.push("/");
+    }
+  };
 
   return (
     <Container className="bg-light">
-      <Navbar expand="lg">
-        <NavbarBrand href="/">Easy Polls</NavbarBrand>
+      <Navbar>
+        <NavbarBrand
+          onClick={() => {
+            logoClick();
+            console.log("logo clicked");
+          }}
+        >
+          Easy Polls
+        </NavbarBrand>
 
         <Navbar.Collapse className="justify-content-end">
-          {UserContext != null && <NavLogin />}
+          {userContext != null && <NavLogin />}
         </Navbar.Collapse>
       </Navbar>
     </Container>
@@ -32,16 +45,36 @@ const Header = () => {
 };
 
 const NavLogin = () => {
-  const UserContext = useContext<any>(SessionContext);
+  // const UserContext = useContext<any>(SessionContext);
+  let router = useRouter();
 
-  let data = JSON.parse(UserContext);
+  interface IcontextChange {
+    setContext: () => void;
+  }
+
+  const [userContext, setUserContext] = useContext(SessionContext);
+
+  let data = JSON.parse(userContext);
   let user = data.username;
+
+  const logout = () => {
+    delete_cookie("user_data");
+    router.push("/");
+  };
 
   return (
     <>
       <NavDropdown title={user}>
         <NavDropdown.Item>
-          <p className="text-danger">Log Out</p>
+          <p
+            className="text-danger"
+            onClick={() => {
+              logout();
+              setUserContext(null);
+            }}
+          >
+            Logout
+          </p>
         </NavDropdown.Item>
       </NavDropdown>
     </>
