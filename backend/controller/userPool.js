@@ -15,6 +15,8 @@ const signup = async (req, res) => {
       throw new Error("Please enter all fields");
     }
 
+    //checks if user exist
+
     const emailData = {
       Name: "email",
       Value: email,

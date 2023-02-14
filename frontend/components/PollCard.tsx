@@ -32,7 +32,12 @@ const PollCard = (props: { list: [IPoll] }) => {
           }, 0);
 
           return (
-            <AccordianPoll title={poll.question} id={poll.id} count={count} />
+            <AccordianPoll
+              key={poll.id}
+              title={poll.question}
+              id={poll.id}
+              count={count}
+            />
           );
         })}
       </Row>

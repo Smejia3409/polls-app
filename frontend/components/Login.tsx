@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 
 import { useRouter } from "next/navigation";
 import { getCookie } from "../jsfiles/cookies";
+import { SessionContext } from "./Context";
 
 const Login = () => {
   const router = useRouter();
+  const [userContext, setUserContext] = useContext(SessionContext);
 
   interface IloginCred {
     username: string;
@@ -39,6 +41,8 @@ const Login = () => {
       const user_data = login.data.accessToken.payload;
 
       document.cookie = `user_data=${JSON.stringify(user_data)}`;
+      sessionStorage.setItem("user_data", JSON.stringify(user_data));
+      setUserContext(JSON.stringify(user_data));
 
       setStatus("");
       router.push("/home");

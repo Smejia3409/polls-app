@@ -54,11 +54,15 @@ const NavLogin = () => {
 
   const [userContext, setUserContext] = useContext(SessionContext);
 
-  let data = JSON.parse(userContext);
-  let user = data.username;
+  // let data = JSON.parse(userContext);
+  let ctx = JSON.parse(userContext);
+  let user = ctx.username;
+
+  console.log(ctx.username);
 
   const logout = () => {
     delete_cookie("user_data");
+    sessionStorage.clear();
     router.push("/");
   };
 

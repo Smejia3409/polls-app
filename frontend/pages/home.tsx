@@ -3,33 +3,30 @@ import { SessionContext } from "../components/Context";
 
 import Header from "../components/Header";
 import CreatePoll from "../components/CreatePoll";
-import axios from "axios";
-import { Button, Card } from "react-bootstrap";
+
 import MyPolls from "../components/MyPolls";
 import Loading from "../components/Loading";
 import { IPoll } from "../jsfiles/interfaces";
+import { getCookie } from "../jsfiles/cookies";
 
 const home = (props: { data: [IPoll] }) => {
-  // let myPolls = data.filter((poll: any) => {
-  //   return poll.user ===
-  // });
-
-  // const UserContext = useContext<any>(SessionContext);
   const [userContext, setUserContext] = useContext(SessionContext);
 
   const contextData = JSON.parse(userContext);
 
-  console.log(contextData);
-
   useEffect(() => {
-    console.log(contextData);
-  }, [contextData]);
+    if (!contextData) {
+      setUserContext(getCookie("user_data"));
+    }
+  }, [contextData, props.data]);
 
   return <>{!contextData ? <Loading /> : <ActiveUser data={props.data} />}</>;
 };
 
 const ActiveUser = (props: { data: [IPoll] }) => {
-  useEffect(() => {}, [props.data]);
+  useEffect(() => {
+    console.log(props.data);
+  }, [props.data, SessionContext]);
   return (
     <>
       <Header />

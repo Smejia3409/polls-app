@@ -18,7 +18,7 @@ export default function Home() {
       <Row className="">
         <Col xs={12} sm={7} md={7} lg={7}>
           <div className="d-flex justify-content-center align-items-center h-100">
-            <h1>
+            <h1 style={{ fontFamily: "revert" }}>
               Easy polls <br />{" "}
               <small>Making you cast your question easy</small>
             </h1>
@@ -53,7 +53,7 @@ const StartPage = () => {
               setUserForm(true);
             }}
           >
-            Sigin
+            Login
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
