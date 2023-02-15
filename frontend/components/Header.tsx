@@ -58,8 +58,6 @@ const NavLogin = () => {
   let ctx = JSON.parse(userContext);
   let user = ctx.username;
 
-  console.log(ctx.username);
-
   const logout = () => {
     delete_cookie("user_data");
     sessionStorage.clear();

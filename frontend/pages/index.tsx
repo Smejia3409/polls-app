@@ -1,12 +1,9 @@
 import Head from "next/head";
 import Login from "../components/Login";
 import Register from "../components/Register";
-import Template from "../components/Template";
-import { SessionContext } from "../components/Context";
-import { useState, useContext, useEffect } from "react";
+import { useState } from "react";
 import { Col, Container, Nav, Row } from "react-bootstrap";
 import Header from "../components/Header";
-import { useRouter } from "next/navigation";
 
 export default function Home() {
   return (

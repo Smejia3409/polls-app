@@ -24,9 +24,7 @@ const home = (props: { data: [IPoll] }) => {
 };
 
 const ActiveUser = (props: { data: [IPoll] }) => {
-  useEffect(() => {
-    console.log(props.data);
-  }, [props.data, SessionContext]);
+  useEffect(() => {}, [props.data, SessionContext]);
   return (
     <>
       <Header />
