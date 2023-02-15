@@ -8,33 +8,10 @@ const signin = () => {
   const [userForm, setUserForm] = useState<boolean>(false);
 
   return (
-    <>
-      <Header />;
-      <Container>
-        <Nav justify variant="tabs">
-          <Nav.Item>
-            <Nav.Link
-              onClick={() => {
-                setUserForm(true);
-              }}
-            >
-              Login
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link
-              onClick={() => {
-                setUserForm(false);
-              }}
-            >
-              Register
-            </Nav.Link>
-          </Nav.Item>
-        </Nav>
-
-        {userForm ? <Login /> : <Register />}
-      </Container>
-    </>
+    <Container>
+      <Header />
+      <Login />
+    </Container>
   );
 };
 
