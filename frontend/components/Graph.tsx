@@ -44,13 +44,14 @@ const Graph = (props: { poll: IPoll }) => {
   };
 
   const polldata = {
-    labels,
+    labels: ["blue", "red", "yellow", "green", "purple", "orange"],
     datasets: [
       {
         data: data.map((num) => {
           return num;
         }),
         backgroundColor: ["blue", "red", "yellow", "green", "purple", "orange"],
+        labels: ["1,2,3"],
       },
     ],
   };

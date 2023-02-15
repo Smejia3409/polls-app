@@ -5,8 +5,6 @@ import Register from "../components/Register";
 import Header from "../components/Header";
 
 const signin = () => {
-  const [userForm, setUserForm] = useState<boolean>(false);
-
   return (
     <Container>
       <Header />

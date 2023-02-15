@@ -33,6 +33,7 @@ function CreatePoll() {
   const [answer, setAnswer] = useState<string>("");
   const [question, setQuestion] = useState<string>("");
   const [poll, setPoll] = useState<IPoll>();
+  const [formStatus, setFormStatus] = useState<string>("");
 
   const addAnswer = (event: any) => {
     event.preventDefault();
@@ -46,15 +47,17 @@ function CreatePoll() {
       setAnswersList([...answersList, res]);
       setAnswer("");
     } else {
-      alert("please dont leave input blank");
+      setFormStatus("please dont leave response input blank");
     }
   };
 
   const submitForm = async (event: any) => {
     event.preventDefault();
     try {
-      if (answersList.length < 2) {
-        alert("At least 2 responses are needed");
+      if (question == "" || question === null) {
+        setFormStatus("Please dont leave question input blank");
+      } else if (answersList.length < 2) {
+        setFormStatus("At least 2 responses are needed");
       } else {
         let pollObj = {
           id: id.toString(),
@@ -67,14 +70,13 @@ function CreatePoll() {
 
         handleClose();
 
-        alert("Poll created");
-
         console.log(pollObj);
 
         setPoll(pollObj);
         setAnswer("");
         setAnswersList([]);
         setQuestion("");
+        setFormStatus("");
       }
     } catch (error) {
       console.log(error);
@@ -92,7 +94,7 @@ function CreatePoll() {
       <Modal show={show} onHide={handleClose}>
         <Form>
           <Modal.Header closeButton>
-            <Form.Label>Create poll</Form.Label>
+            <Form.Label>Create poll</Form.Label> <br />
           </Modal.Header>
 
           <Modal.Body>
@@ -116,6 +118,9 @@ function CreatePoll() {
                 }}
               />
               <Button onClick={addAnswer}>Add</Button>
+              <span>
+                <p className="text text-danger">{formStatus}</p>
+              </span>
             </Form.Group>
 
             {answersList.map((a: IAnswers) => {
