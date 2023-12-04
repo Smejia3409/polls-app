@@ -4,9 +4,12 @@ import { IPoll, IpollAns } from "../jsfiles/interfaces";
 import { Chart, registerables } from "chart.js";
 import { Filler } from "chart.js";
 import { Button } from "react-bootstrap";
+import { Colors } from "chart.js";
 
 Chart.register(Filler);
 Chart.register(...registerables);
+
+Chart.register(Colors);
 
 const Graph = (props: { poll: IPoll }) => {
   let labels: string[] = [];
@@ -50,7 +53,7 @@ const Graph = (props: { poll: IPoll }) => {
         data: data.map((num) => {
           return num;
         }),
-        backgroundColor: ["blue", "red", "yellow", "green", "purple", "orange"],
+        // backgroundColor: ["blue", "red", "yellow", "green", "purple", "orange"],
         label: "Responses",
       },
     ],

@@ -22,13 +22,11 @@ const poll = (data: any) => {
     poll.answers.forEach((count) => {
       num = num + count.count;
     });
-    console.log("Poll is there");
   }
 
   const updatePoll = async (poll: IPoll) => {
     try {
-      let data = await axios.put("http://localhost:5000/poll/addPoll", poll);
-      console.log(data);
+      await axios.put("http://localhost:5000/poll/addPoll", poll);
     } catch (error) {
       console.log(error);
     }
